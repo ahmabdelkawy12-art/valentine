@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>For Satota ❤️</title>
+
+  <style>
+    * { box-sizing: border-box; font-family: "Segoe UI", Tahoma, sans-serif; }
+
+    body {
+      margin: 0;
+      height: 100vh;
+      background: linear-gradient(135deg, #ff758c, #ff7eb3);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+
+    .heart {
+      position: absolute;
+      color: rgba(255, 0, 100, 0.8);
+      font-size: 20px;
+      animation: float 6s linear infinite;
+      pointer-events: none;
+    }
+
+    @keyframes float {
+      0% { transform: translateY(100vh) scale(0.4); opacity: 0; }
+      20% { opacity: 1; }
+      100% { transform: translateY(-10vh) scale(1.3); opacity: 0; }
+    }
+
+    .card {
+      background: white;
+      padding: 45px 50px;
+      border-radius: 25px;
+      text-align: center;
+      box-shadow: 0 20px 50px rgba(0,0,0,0.25);
+      max-width: 420px;
+      width: 90%;
+      z-index: 10;
+      animation: pop 1s ease;
+    }
+
+    @keyframes pop {
+      from { transform: scale(0.5); opacity: 0; }
+      to { transform: scale(1); opacity: 1; }
+    }
+
+    h1 { color: #e63946; margin-bottom: 10px; font-size: 28px; }
+    h2 { color: #ff4d6d; margin-bottom: 20px; font-size: 20px; font-weight: normal; }
+
+    .buttons {
+      margin-top: 25px;
+      display: flex;
+      justify-content: center;
+      gap: 25px;
+      position: relative;
+      height: 60px;
+    }
+
+    button {
+      padding: 12px 30px;
+      font-size: 17px;
+      border: none;
+      border-radius: 30px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    #yesBtn {
+      background: linear-gradient(135deg, #ff4d6d, #ff758f);
+      color: white;
+      box-shadow: 0 5px 15px rgba(255,77,109,0.5);
+    }
+
+    #yesBtn:hover { transform: scale(1.15); }
+
+    #noBtn {
+      background: #ced4da;
+      color: #333;
+      position: absolute;
+    }
+
+    .message {
+      margin-top: 20px;
+      font-size: 20px;
+      color: #e63946;
+      font-weight: bold;
+      display: none;
+    }
+
+    .love-note {
+      margin-top: 15px;
+      font-size: 16px;
+      color: #555;
+      display: none;
+      line-height: 1.6;
+    }
+
+    /* Wheel Screen */
+    #wheelScreen {
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      height: 100%;
+      position: absolute;
+      top: 0;
+      left: 0;
+      background: linear-gradient(135deg, #ff9a9e, #fad0c4);
+      z-index: 50;
+    }
+
+    #wheelContainer {
+      position: relative;
+      width: 300px;
+      height: 300px;
+      margin-bottom: 20px;
+    }
+
+    #wheel {
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      border: 8px solid #fff;
+      background: conic-gradient(
+        #ff4d6d 0deg 60deg,
+        #ffb3c6 60deg 120deg,
+        #ffd6e0 120deg 180deg,
+        #ff8fab 180deg 240deg,
+        #ffc2d1 240deg 300deg,
+        #ff5c8a 300deg 360deg
+      );
+      transition: transform 4s cubic-bezier(0.33,1,0.68,1);
+    }
+
+    #pointer {
+      width: 0; height: 0;
+      border-left: 15px solid transparent;
+      border-right: 15px solid transparent;
+      border-bottom: 25px solid #e63946;
+      position: absolute;
+      top: -20px; left: 50%;
+      transform: translateX(-50%);
+    }
+
+    #spinBtn { background: #ff4d6d; color: white; margin-top: 15px; }
+
+    #result {
+      margin-top: 15px;
+      font-size: 18px;
+      color: #e63946;
+      font-weight: bold;
+      display: none;
+    }
+
+    #wishBox {
+      margin-top: 15px;
+      display: none;
+      width: 90%;
+      max-width: 300px;
+    }
+
+    #wishBox input {
+      width: 100%;
+      padding: 10px;
+      border-radius: 20px;
+      border: 1px solid #ccc;
+      text-align: center;
+    }
+
+    audio { display: none; }
+  </style>
+</head>
+<body>
+
+  <audio id="loveMusic" loop>
+    <source src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_84bcb3c0db.mp3?filename=romantic-love-112195.mp3" type="audio/mpeg">
+  </audio>
+
+  <!-- Valentine Card -->
+  <div class="card" id="mainCard">
+    <h1>💖 Satota 💖</h1>
+    <h2>Will You Be My Valentine?</h2>
+
+    <div class="buttons">
+      <button id="yesBtn">Yes 😍</button>
+      <button id="noBtn">No 🙈</button>
+    </div>
+
+    <div class="message" id="message">Yaaay! 💕 I’m the luckiest person alive! 🥰</div>
+
+    <div class="love-note" id="loveNote">
+      Your smile is my favorite view 💖<br>
+      Your laugh is my favorite song 🎶<br><br>
+      Forever & always ❤️
+    </div>
+  </div>
+
+  <!-- Wheel Screen -->
+  <div id="wheelScreen">
+    <h1>🎁 Your Surprise Gift 🎁</h1>
+
+    <div id="wheelContainer">
+      <div id="pointer"></div>
+      <div id="wheel"></div>
+    </div>
+
+    <button id="spinBtn">Spin the Wheel 💫</button>
+
+    <div id="wishBox">
+      <p>Write your wish, my love 💌</p>
+      <input type="text" id="wishInput" placeholder="Type your wish here...">
+      <button id="sendWishBtn" style="margin-top:10px; background:#ff4d6d; color:white;">Send to Me ❤️</button>
+    </div>
+
+    <div id="result"></div>
+  </div>
+
+  <script>
+    const FORM_URL = "https://forms.gle/AHaPgbnw8kLZT9JDA";
+
+    const noBtn = document.getElementById("noBtn");
+    const yesBtn = document.getElementById("yesBtn");
+    const message = document.getElementById("message");
+    const loveNote = document.getElementById("loveNote");
+    const music = document.getElementById("loveMusic");
+
+    const mainCard = document.getElementById("mainCard");
+    const wheelScreen = document.getElementById("wheelScreen");
+
+    const wheel = document.getElementById("wheel");
+    const spinBtn = document.getElementById("spinBtn");
+    const result = document.getElementById("result");
+    const wishBox = document.getElementById("wishBox");
+    const wishInput = document.getElementById("wishInput");
+    const sendWishBtn = document.getElementById("sendWishBtn");
+
+    let currentRotation = 0;
+
+    const prizes = [
+      "Romantic Dinner 🍽️",
+      "Movie Night 🎬",
+      "Surprise Gift 🎁",
+      "Weekend Date 🌴",
+      "Shopping Together 🛍️",
+      "Your Special Wish 💌"
+    ];
+
+    /* No button runs */
+    noBtn.addEventListener("mouseenter", moveButton);
+    noBtn.addEventListener("click", moveButton);
+
+    function moveButton() {
+      const cardRect = mainCard.getBoundingClientRect();
+      const maxX = cardRect.width - noBtn.offsetWidth;
+      const maxY = cardRect.height - noBtn.offsetHeight;
+
+      noBtn.style.left = Math.random() * maxX + "px";
+      noBtn.style.top = Math.random() * maxY + "px";
+    }
+
+    /* Yes button */
+    yesBtn.addEventListener("click", () => {
+      message.style.display = "block";
+      loveNote.style.display = "block";
+      noBtn.style.display = "none";
+      yesBtn.disabled = true;
+      music.play();
+
+      setTimeout(() => {
+        mainCard.style.display = "none";
+        wheelScreen.style.display = "flex";
+      }, 2000);
+    });
+
+    /* Hearts */
+    function createHeart() {
+      const heart = document.createElement("div");
+      heart.classList.add("heart");
+      heart.innerHTML = "❤️";
+      heart.style.left = Math.random() * 100 + "vw";
+      heart.style.fontSize = 15 + Math.random() * 25 + "px";
+      heart.style.animationDuration = 4 + Math.random() * 4 + "s";
+      document.body.appendChild(heart);
+      setTimeout(() => heart.remove(), 7000);
+    }
+
+    setInterval(createHeart, 350);
+
+    /* Spin Wheel (Always lands on Wish) */
+    spinBtn.addEventListener("click", () => {
+      result.style.display = "none";
+      wishBox.style.display = "none";
+
+      const sectionAngle = 360 / prizes.length;
+      const targetIndex = prizes.length - 1;
+
+      const targetAngle = 360 - (targetIndex * sectionAngle) - sectionAngle / 2;
+      const spins = 5 * 360;
+
+      currentRotation += spins + targetAngle;
+      wheel.style.transform = `rotate(${currentRotation}deg)`;
+
+      setTimeout(() => {
+        result.innerText = "You won: " + prizes[targetIndex] + " 💖";
+        result.style.display = "block";
+        wishBox.style.display = "block";
+      }, 4200);
+    });
+
+    /* Send wish to Google Form */
+    sendWishBtn.addEventListener("click", () => {
+      const wish = wishInput.value.trim();
+
+      if (!wish) {
+        alert("Please write your wish first 💌");
+        return;
+      }
+
+      const encodedWish = encodeURIComponent(wish);
+      const finalURL = FORM_URL + "?entry.1041031296=" + encodedWish;
+
+      window.open(finalURL, "_blank");
+
+      result.innerText = "Your wish was sent successfully ❤️";
+      result.style.display = "block";
+      wishBox.style.display = "none";
+    });
+  </script>
+
+</body>
+</html>
